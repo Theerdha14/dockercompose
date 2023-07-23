@@ -1,22 +1,42 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: myapps
-  namespace: theernamespace
-  labels:
-    app: myapps
+  name: my-app-deployment
 spec:
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
-      app: myapps
+      app: my-app
   template:
     metadata:
       labels:
-        app: myapps
+        app: my-app
     spec:
       containers:
-      - name: myapps
-        image: theerdha14/dockercompose-app:latest
-        ports:
-        - containerPort: 80
+        - name: my-app-container
+          image: theerdha14/dockercompose-app:latest
+          ports:
+            - containerPort: 80
+          # Add the following sections for LivenessProbe and ReadinessProbe
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 80
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          readinessProbe:
+            httpGet:
+              path: /readiness
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          # Add the following section to read the ConfigMap
+          envFrom:
+            - configMapRef:
+                name: my-config-map
+          # Add the rolling update strategy
+          strategy:
+            type: RollingUpdate
+            rollingUpdate:
+              maxSurge: 1
+              maxUnavailable: 1
