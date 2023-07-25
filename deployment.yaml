@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: my-app-deployment
+  name: my-app
   namespace: helm
 spec:
   replicas: 3
@@ -14,7 +14,7 @@ spec:
         app: my-app
     spec:
       containers:
-        - name: my-app-container
+        - name: my-app
           image: helmcontainer.azurecr.io/dockerr:latest
           ports:
             - containerPort: 80
