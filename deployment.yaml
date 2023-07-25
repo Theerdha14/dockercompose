@@ -13,30 +13,7 @@ spec:
         app: my-app
     spec:
       containers:
-        - name: my-app-container
-          image: theerdha14/dockercompose-app:latest
+        - name: helmcontainer
+          image: helmcontainer.azurecr.io/dockerr:latest
           ports:
             - containerPort: 80
-          # Add the following sections for LivenessProbe and ReadinessProbe
-          livenessProbe:
-            httpGet:
-              path: /healthz
-              port: 80
-            initialDelaySeconds: 15
-            periodSeconds: 20
-          readinessProbe:
-            httpGet:
-              path: /readiness
-              port: 80
-            initialDelaySeconds: 5
-            periodSeconds: 10
-          # Add the following section to read the ConfigMap
-          envFrom:
-            - configMapRef:
-                name: my-config-map
-          # Add the rolling update strategy
-          strategy:
-            type: RollingUpdate
-            rollingUpdate:
-              maxSurge: 1
-              maxUnavailable: 1
