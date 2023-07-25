@@ -13,7 +13,7 @@ spec:
         app: my-app
     spec:
       containers:
-        - name: helmcontainer
+        - name: my-app-container
           image: helmcontainer.azurecr.io/dockerr:latest
           ports:
             - containerPort: 80
